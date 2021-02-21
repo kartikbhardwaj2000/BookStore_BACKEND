@@ -1,29 +1,8 @@
 # RC_BACKEND
 
-{ 
-name  : string, notnull
-Phone_number: string_max_len10, notnull
- ID: string,
-ListedBooks :[uniqueId1,uniqueId2,... ],
-Location: {state:haryana, city:bhiwani},
-Favourite books:[uniqueId1,uniqueId2,...],
-Photo Uri : string
-Notifications : [NotificationObject1,NotificationObject2,.....]
+API DOcumentation:
+https://docs.google.com/document/d/1OwKjRvGPJdwmd5VB3i9sdSc03LwM5S_t7D4ukPwvcEY/edit?usp=sharing
+Database Schema:
+https://docs.google.com/document/d/12Z81jK2ut7OycYxVYsXvkRuqfORe6YeqILiNd9a2Oz0/edit?usp=sharing
 
-}
-
-Books Schema
-{
-ID: String, notnull
-name: string, notnull
-authorName: string, 
-edition/year of publication: string,
-Class recommended: (beginner friendly, medium or advanced),
-Subject: string,
-conditionOfBook: string,
-listedBy- unique user Id,
-Location:{state: “X”,city:”Y”}
-photosUriArray,
-Price: String
-Description: string
-}
+link accessible within bits pilani university.
