@@ -4,6 +4,7 @@ const app = express();
 
 const auth = require('./routes/auth')
 const user=require('./routes/user')
+const store =require('./routes/store');
 const handleErrors =require('./middleware/handleErrors')
 
 const port = process.env.port||3008;
@@ -12,6 +13,7 @@ app.use(express.json())
 
 app.use('/auth',auth);
 app.use('/user',user);
+app.use('/store',store);
 
 // app.use('/',(req,res)=>{
 //     res.send("Welcome to Book Store")
