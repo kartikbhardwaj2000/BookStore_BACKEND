@@ -19,13 +19,17 @@ router.post('/verifyOtp',body('phoneNumber').isLength({max:10,min:10}).withMessa
   await authController.verifyOtp(req,res,next);
 })
 
-router.post('/signup',(req,res)=>{
+router.post('/signup',body('name').notEmpty().withMessage('name should pe present'),body('phoneNumber').isLength({max:10,min:10}).withMessage((value)=>{
+    return `phone no must be of length 10, but received ${value}`
+}),async (req,res,next)=>{
 
-res.send("signup")
+await authController.signUp(req,res,next);
 })
 
-router.get('/login',(req,res)=>{
-res.send("login")
+router.post('/login',body('phoneNumber').isLength({max:10,min:10}).withMessage((value)=>{
+    return `phone no must be of length 10, but received ${value}`
+}),async (req,res,next)=>{
+  await  authController.login(req,res,next);
 })
 
 

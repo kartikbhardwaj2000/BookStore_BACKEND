@@ -3,6 +3,7 @@ const mongoose =require('mongoose');
 const app = express();
 
 const auth = require('./routes/auth')
+const user=require('./routes/user')
 const handleErrors =require('./middleware/handleErrors')
 
 const port = process.env.port||3008;
@@ -10,6 +11,7 @@ const port = process.env.port||3008;
 app.use(express.json())
 
 app.use('/auth',auth);
+app.use('/user',user);
 
 // app.use('/',(req,res)=>{
 //     res.send("Welcome to Book Store")

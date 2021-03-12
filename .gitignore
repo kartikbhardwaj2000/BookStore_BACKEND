@@ -1,1 +1,6 @@
 node_modules/
+
+.vscode/
+Controllers/user.js
+extras/
+TwillioVerify/
