@@ -14,8 +14,9 @@ body("bookId").isLength(24).withMessage("bookId contains 24 characters"),async (
  await userController.notifyUser(req,res,next);
 })
 
-router.post('/getBookDetail/:bookId',param('bookId').isLength(24).withMessage("bookId contains 24 characters"),async(req,res,next)=>{
-  await userController.getBookDetail(req,res,next);
+router.post('/addFavourite',body("userId").isLength(24).withMessage("userId contains 24 characters"),
+body("bookId").isLength(24).withMessage("bookId contains 24 characters"),async(req,res,next)=>{
+  await userController.addFavourite(req,res,next);
 })
 
 module.exports=router;
