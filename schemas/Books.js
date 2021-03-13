@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 
 
-getTimeStamp = () => {
+let getTimeStamp = () => {
     let date = new Date().getDate(); //Current Date
     let month = new Date().getMonth() + 1; //Current Month
     let year = new Date().getFullYear(); //Current Year
@@ -20,7 +20,7 @@ const Book = new mongoose.Schema({
     subject:String,
     level:String,
     condition:String,
-    listedBy:mongoose.Types.ObjectId,
+    listedBy:{type:mongoose.Types.ObjectId,required:true},
     location:{
         state:String,
         city:String,

@@ -8,4 +8,14 @@ router.get('/getDetails/:userId',param("userId").isLength(24).withMessage("userI
 
 })
 
+router.post('/notifyUser',body("userId").isLength(24).withMessage("userId contains 24 characters"),
+body("targetUserId").isLength(24).withMessage("targetUserId contains 24 characters"),
+body("bookId").isLength(24).withMessage("bookId contains 24 characters"),async (req,res,next)=>{
+ await userController.notifyUser(req,res,next);
+})
+
+router.post('/getBookDetail/:bookId',param('bookId').isLength(24).withMessage("bookId contains 24 characters"),async(req,res,next)=>{
+  await userController.getBookDetail(req,res,next);
+})
+
 module.exports=router;

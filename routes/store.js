@@ -1,6 +1,6 @@
 const express= require('express');
 const router= express.Router();
-const {body,validationResult} =require('express-validator');
+const {param,body,validationResult} =require('express-validator');
 const storeController = require('../Controllers/store');
 
 
@@ -11,5 +11,9 @@ body('edition').isInt().withMessage("edition is an int value"),
 async(req,res,next)=>{
 await storeController.createListing(req,res,next);
 })
+
+router.get('/getBookDetail/:bookId',param('bookId').isLength(24).withMessage("bookId contains 24 characters"),async(req,res,next)=>{
+    await storeController.getBookDetail(req,res,next);
+  })
 
 module.exports=router;
