@@ -17,6 +17,7 @@ const Book = new mongoose.Schema({
     bookName:{type:String, required:true},
     author:{type:String,required:true},
     edition:{type:Number,required:true},
+    quantity:{type:Number,default:1},
     subject:String,
     level:String,
     condition:String,
@@ -30,6 +31,8 @@ const Book = new mongoose.Schema({
     description:String,
     listedDate:{type:String, default:getTimeStamp()}
 });
+
+Book.index({bookName:"text",description:"text",author:"text"})
 
 const bookModel =  mongoose.model("book",Book);
 module.exports=bookModel;

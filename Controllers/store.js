@@ -25,6 +25,10 @@ exports.createListing=async (req,res,next)=>{
         let listedBy= mongoose.Types.ObjectId(req.body.userId);
         req.body.price =parseFloat(req.body.price);
         req.body.edition=parseInt(req.body.edition);
+        if(req.body.quantity)
+        {
+            req.body.quantity=parseInt(req.body.quantity);
+        }
         let book={...req.body,listedBy:listedBy};
         book.location=user.location;
         
@@ -90,4 +94,27 @@ exports.getBookDetail=async (req,res,next)=>{
         console.log(error);
         next(error);
     }
+}
+exports.getSearch= async (req,res,next)=>{
+    let Result = validationResult(req);
+    let errors= Result.errors;
+    try {
+        if(!Result.isEmpty())
+        {
+            let messageArr=[];
+            errors.forEach(element => {
+             messageArr.push(element.msg);
+
+            });
+        throw new BadRequest(messageArr.toString());
+        }
+    let totalBooks=  await Book.find({$text:{$search:req.body.searchQuery}});
+    res.json(totalBooks);
+
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+  
+   
 }

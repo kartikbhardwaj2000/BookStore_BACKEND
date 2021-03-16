@@ -16,4 +16,8 @@ router.get('/getBookDetail/:bookId',param('bookId').isLength(24).withMessage("bo
     await storeController.getBookDetail(req,res,next);
   })
 
+router.post('/getSearch/',body('searchQuery').notEmpty().withMessage("search query cannot be empty"),async (req,res,next)=>{
+      await storeController.getSearch(req,res,next);
+})  ;
+
 module.exports=router;
