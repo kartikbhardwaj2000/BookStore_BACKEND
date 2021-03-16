@@ -7,7 +7,7 @@ const user=require('./routes/user')
 const store =require('./routes/store');
 const handleErrors =require('./middleware/handleErrors')
 
-const port = process.env.port||3008;
+const port = process.env.PORT||3008;
 
 app.use(express.json())
 
