@@ -162,3 +162,36 @@ exports.addFavourite=async(req,res,next)=>{
         next(err);
     }
 }
+
+exports.getNotifications= async (req,res,next)=>{
+try {
+    let Result = validationResult(req);
+    let errors= Result.errors;
+    let messageArr=[]
+    if(!Result.isEmpty())
+    {
+        errors.forEach(element => {
+            messageArr.push(element.msg);
+        });
+        throw new BadRequest(messageArr.toString());
+    }
+
+    let user = await User.findOne({_id:mongoose.Types.ObjectId(req.body.userId)});
+    if(!user)
+    {
+        throw new NotFound("user does not exist");
+    }
+ 
+    let respone={
+        status:"success",
+        subcode:"200",
+        message:"notifications fetched successfully",
+        body:user.notifications
+    }
+    res.json(respone);
+
+} catch (error) {
+    console.log(error);
+    next(error);
+}
+}

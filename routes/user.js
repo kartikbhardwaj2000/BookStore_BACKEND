@@ -19,4 +19,8 @@ body("bookId").isLength(24).withMessage("bookId contains 24 characters"),async(r
   await userController.addFavourite(req,res,next);
 })
 
+router.post('/getNotifications',body("userId").isLength(24).withMessage("userId contains 24 characters"),async(req,res,next)=>{
+  await userController.getNotifications(req,res,next);
+})
+
 module.exports=router;
