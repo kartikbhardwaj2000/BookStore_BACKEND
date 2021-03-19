@@ -99,6 +99,7 @@ exports.notifyUser=async(req,res,next)=>{
 }
 }
 
+
 exports.addFavourite=async(req,res,next)=>{
     let Result = validationResult(req);
     let errors= Result.errors;
@@ -144,7 +145,7 @@ exports.addFavourite=async(req,res,next)=>{
     }
     
     favouriteBooks.push(mongoose.Types.ObjectId(req.body.bookId));
-    let mongoResp=await User.updateOne({_id:mongoose.Types.ObjectId(req.body.userId)},{
+    let mongoResp=await User.updateOne({notifications:mongoose.Types.ObjectId(req.body.userId)},{
         favouriteBooks:favouriteBooks
     });
 
@@ -163,35 +164,113 @@ exports.addFavourite=async(req,res,next)=>{
     }
 }
 
-exports.getNotifications= async (req,res,next)=>{
-try {
+exports.removeFavourite = async(req,res,next)=>{
     let Result = validationResult(req);
     let errors= Result.errors;
     let messageArr=[]
-    if(!Result.isEmpty())
+    try {
+        if(!Result.isEmpty())
     {
         errors.forEach(element => {
             messageArr.push(element.msg);
         });
         throw new BadRequest(messageArr.toString());
     }
-
-    let user = await User.findOne({_id:mongoose.Types.ObjectId(req.body.userId)});
+    let user= await User.findOne({_id:mongoose.Types.ObjectId(req.body.userId)});
+    let book= await Book.findOne({_id:mongoose.Types.ObjectId(req.body.bookId)});
     if(!user)
     {
         throw new NotFound("user does not exist");
     }
- 
-    let respone={
+    if(!book)
+    {
+        throw new NotFound("book does not exist");
+    }
+    
+    let favouriteBooks;
+    let response;
+    if(user.favouriteBooks){
+        favouriteBooks=[...user.favouriteBooks]
+        let favouriteBook = favouriteBooks.find((val)=>{
+           return  val.toString()===req.body.bookId;
+        });
+        if(!favouriteBook)
+        {
+            response={
+                status:"success",
+            subcode:"200",
+            message:"book is already not present in favourite",
+            
+            }
+        }
+        
+        else{
+            favouriteBooks=[...user.favouriteBooks]
+            let favouriteBook = favouriteBooks.forEach((val,index)=>{
+               if(val.toString() === req.body.bookId){
+                   favouriteBooks.splice(index,index+1);
+               }
+            });
+        
+            let doc = await User.updateOne({_id:mongoose.Types.ObjectId(req.body.userId)},{favouriteBooks:favouriteBooks});
+    
+            response={
+                status:"success",
+                subcode:"200",
+                message:"book removed from favourite",
+                body: doc
+            }
+        }
+    }
+    else{
+        response={
         status:"success",
         subcode:"200",
-        message:"notifications fetched successfully",
-        body:user.notifications
+        message:"book is already not present in favourite",
+        }
     }
-    res.json(respone);
+        
+    res.json({...response});
 
-} catch (error) {
-    console.log(error);
-    next(error);
+    }
+    catch(err){
+        console.log(err);
+        next(err);
+
+    }
+
 }
+
+exports.getNotifications= async (req,res,next)=>{
+    try {
+        let Result = validationResult(req);
+        let errors= Result.errors;
+        let messageArr=[]
+        if(!Result.isEmpty())
+        {
+            errors.forEach(element => {
+                messageArr.push(element.msg);
+            });
+            throw new BadRequest(messageArr.toString());
+        }
+    
+        let user = await User.findOne({_id:mongoose.Types.ObjectId(req.body.userId)});
+        if(!user)
+        {
+            throw new NotFound("user does not exist");
+        }
+     
+        let respone={
+            status:"success",
+            subcode:"200",
+            message:"notifications fetched successfully",
+            body:user.notifications
+        }
+        res.json(respone);
+    
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+    
 }
