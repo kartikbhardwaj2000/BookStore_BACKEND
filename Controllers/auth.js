@@ -49,7 +49,7 @@ exports.verifyOtp=async (req,res,next)=>{
     }
 }
 
-exports.signUp= async (req,res,next)=>{
+exports.signUp= async(req,res,next)=>{
     console.log("req received=>",req.body);
 
     let Result = validationResult(req);

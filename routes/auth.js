@@ -1,6 +1,9 @@
+//External Dependencies
 const express= require('express');
 const router = express.Router();
 const {body, validationResult} = require('express-validator');
+
+//Our own dependencies
 const authController = require('../Controllers/auth')
 
 
